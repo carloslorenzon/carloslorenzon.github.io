@@ -1,0 +1,10 @@
+.page-header {
+    padding: 3rem 2rem !important;
+    font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif !important;
+    height: 300px !important;
+}
+
+.page-header a {
+    color: #fff !important;
+    text-decoration: none !important;
+}

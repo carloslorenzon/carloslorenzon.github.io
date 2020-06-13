@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Placar</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .score-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left-side {
+            background-color: #7FB3E8;
+        }
+
+        .right-side {
+            background-color: #FF6F6F;
+        }
+
+        .score {
+            font-size: 60px;
+            margin: 20px 0;
+        }
+
+        .increment,
+        .decrement {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .floating-action {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        .floating-action-left {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        .floating-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .floating-action-left>.floating-button {
+            background-color: #f32121;
+        }
+
+        .floating-button:hover {
+            background-color: #1e88e5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-header,
+        .table-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-cell {
+            flex: 1;
+            text-align: center;
+        }
+
+        .table-cell-header {
+            font-weight: bold;
+        }
+
+        .confirm-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .cancel-button {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .confirm-button:hover,
+        .cancel-button:hover {
+            opacity: 0.8;
+        }
+
+        .fullscreen-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .fullscreen-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        let scoreLeft = 0;
+        let scoreRight = 0;
+        let results = JSON.parse(localStorage.getItem('results')) || [];
+
+        function updateScore(side, value) {
+            if (side === 'left') {
+                scoreLeft = Math.max(0, scoreLeft + value);
+                document.getElementById('scoreLeft').textContent = scoreLeft;
+            } else if (side === 'right') {
+                scoreRight = Math.max(0, scoreRight + value);
+                document.getElementById('scoreRight').textContent = scoreRight;
+            }
+        }
+
+        function newGame() {
+            const winner = scoreLeft > scoreRight ? 'Time Azul' : scoreRight > scoreLeft ? 'Time Vermelho' : 'Empate';
+            results.push({ left: scoreLeft, right: scoreRight, winner });
+            localStorage.setItem('results', JSON.stringify(results));
+            resetGame();
+        }
+
+        function resetGame() {
+            scoreLeft = 0;
+            scoreRight = 0;
+            document.getElementById('scoreLeft').textContent = scoreLeft;
+            document.getElementById('scoreRight').textContent = scoreRight;
+        }
+
+        function viewResults() {
+            const modal = document.getElementById('resultsModal');
+            const resultsTable = document.getElementById('resultsTable');
+            resultsTable.innerHTML = '';
+
+            if (results.length === 0) {
+                resultsTable.innerHTML = '<p>Sem resultados ainda!</p>';
+            } else {
+                const tableHeader = document.createElement('div');
+                tableHeader.className = 'table-header';
+                tableHeader.innerHTML = `
+      <div class="table-cell-header">Rodada</div>
+      <div class="table-cell-header">Time Azul</div>
+      <div class="table-cell-header">Time Vermelho</div>
+      <div class="table-cell-header">Vencedor</div>
+    `;
+                resultsTable.appendChild(tableHeader);
+
+                results.forEach((result, index) => {
+                    const tableRow = document.createElement('div');
+                    tableRow.className = 'table-row';
+                    tableRow.innerHTML = `
+        <div class="table-cell">${index + 1}</div>
+        <div class="table-cell">${result.left}</div>
+        <div class="table-cell">${result.right}</div>
+        <div class="table-cell">${result.winner}</div>
+      `;
+                    resultsTable.appendChild(tableRow);
+                });
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showConfirmNewGame() {
+            document.getElementById('confirmNewGameModal').style.display = 'flex';
+        }
+
+        function confirmNewGame() {
+            newGame();
+            closeModal('confirmNewGameModal');
+        }
+
+        function showConfirmResetGame() {
+            document.getElementById('confirmResetGameModal').style.display = 'flex';
+        }
+
+        function confirmResetGame() {
+            resetGame();
+            closeModal('confirmResetGameModal');
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="score-container">
+            <div class="side left-side">
+                <button class="increment" onclick="updateScore('left', 1)">+</button>
+                <span class="score" id="scoreLeft">0</span>
+                <button class="decrement" onclick="updateScore('left', -1)">-</button>
+            </div>
+            <div class="side right-side">
+                <button class="increment" onclick="updateScore('right', 1)">+</button>
+                <span class="score" id="scoreRight">0</span>
+                <button class="decrement" onclick="updateScore('right', -1)">-</button>
+            </div>
+        </div>
+        <div class="floating-action-left">
+            <button class="floating-button" onclick="showConfirmResetGame()">Resetar Rodada</button>
+        </div>
+        <div class="floating-action">
+            <button class="floating-button" onclick="showConfirmNewGame()">Finalizar Partida</button>
+            <button class="floating-button" onclick="viewResults()">Ver Resultados</button>
+        </div>
+        <button class="fullscreen-button" onclick="toggleFullScreen()">⤢</button>
+    </div>
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('resultsModal')">&times;</span>
+            <h2>Resultados</h2>
+            <div id="resultsTable"></div>
+        </div>
+    </div>
+    <div id="confirmNewGameModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('confirmNewGameModal')">&times;</span>
+            <h2>Confirmar finalização da partida?</h2>
+            <p>Você deseja finalizar esta partida? O placar atual será salvo e será iniciado um novo jogo.</p>
+            <button class="confirm-button" onclick="confirmNewGame()">Confirmar</button>
+            <button class="cancel-button" onclick="closeModal('confirmNewGameModal')">Cancelar</button>
+        </div>
+    </div>
+    <div id="confirmResetGameModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('confirmResetGameModal')">&times;</span>
+            <h2>Confirmar Resetar Rodada</h2>
+            <p>Você deseja resetar a rodada atual? O placar atual será perdido.</p>
+            <button class="confirm-button" onclick="confirmResetGame()">Confirmar</button>
+            <button class="cancel-button" onclick="closeModal('confirmResetGameModal')">Cancelar</button>
+        </div>
+    </div>
+</body>
+
+</html>

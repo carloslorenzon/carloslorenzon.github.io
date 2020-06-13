@@ -1,4 +1,33 @@
-theme: jekyll-theme-minimal
-logo: /assets/img/foto.png
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+- jekyll-remote-theme
+page.title: Carlos Lorenzon
 title: Carlos Lorenzon
-description: Apaixonado por tecnologia, voltada à gestão e automação de processos.<br />Formado pela Estácio em sistema de Informação, atuando a 14 anos na venda e desenvolvimento de softwares.<br />Facilidade de comunicar e demonstrar as características técnicas e os benefícios dos produtos e serviços da empresa, como também de explorar as oportunidades existentes para resolver outras deficiências e vulnerabilidades do negócio ainda não identificadas pelos clientes.
+description: Personal site for articles, useful links, and files
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /blog/tags/:name/
+    category: /blog/categories/:name/ 
+    post: /blog/:year/:month/:day/:title/
+
+
+pagination:
+  enabled: true
+  debug: false
+  per_page: 10
+  permalink: /:num/
+  title: ':title - page :num'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
+  trail:
+    before: 2
+    after: 2
+  category_page_layout: 'category'
+  category_page_path: '/categories/:category_name/'
+  category_page_title: 'Posts in category :category_name'

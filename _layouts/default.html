@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: " en-US" }}" class="no-js">
+
+<head>
+  <meta charset="UTF-8">
+  {% seo %}
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ site.title | page.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="description" content="{{site.description}}" />
+  <meta name="keywords" content="{{site.keywords}}" />
+  <meta name="author" content="carloslorenzon" />
+  <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+
+
+  <link rel="stylesheet" href="{{ '/assets/css/reset.css' }} " type="text/css">
+  <link rel="stylesheet" href="{{ '/assets/css/bootstrap-grid.min.css' }}" type="text/css">
+  <link rel="stylesheet" href="{{ '/assets/css/animations.css' }}" type="text/css">
+  <link rel="stylesheet" href="{{ '/assets/css/perfect-scrollbar.css' }}" type="text/css">
+  <link rel="stylesheet" href="{{ '/assets/css/owl.carousel.css' }}" type="text/css">
+  <link rel="stylesheet" href="{{ '/assets/css/magnific-popup.css' }}" type="text/css">
+  <link rel="stylesheet" href="{{ '/assets/css/main-light.css' }}" type="text/css">
+
+  <script src="{{ '/assets/js/modernizr.custom.js' }}"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W8YSZHQ8VC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-W8YSZHQ8VC');
+  </script>
+</head>
+<!-- Animated Background -->
+<div class="lm-animated-bg" style="background-image: url(/assets/img/main_bg.png);"></div>
+<!-- /Animated Background -->
+
+<!-- Loading animation -->
+<div class="preloader">
+  <div class="preloader-animation">
+    <div class="preloader-spinner">
+    </div>
+  </div>
+</div>
+<!-- /Loading animation -->
+
+<div class="page">
+  <div class="page-content">
+
+    <header id="site_header" class="header mobile-menu-hide">
+      <div class="header-content">
+        <div class="header-photo">
+          <a href="/"><img src="/assets/img/avatar.png" alt="Carlos Lorenzon"></a>
+        </div>
+        <div class="header-titles">
+          <h2>Carlos Lorenzon</h2>
+          <h4>Tech Leader</h4>
+        </div>
+      </div>
+
+      <ul class="main-menu">
+        <li class="active">
+          <a href="/" class="nav-anim active">
+            <span class="menu-icon lnr lnr-home"></span>
+            <span class="link-text">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="/about-me" class="nav-anim">
+            <span class="menu-icon lnr lnr-user"></span>
+            <span class="link-text">About Me</span>
+          </a>
+        </li>
+        <!-- <li>
+                <a href="#resume" class="nav-anim">
+                  <span class="menu-icon lnr lnr-graduation-hat"></span>
+                  <span class="link-text">Resume</span>
+                </a>
+              </li>
+              <li>
+                <a href="#portfolio" class="nav-anim">
+                  <span class="menu-icon lnr lnr-briefcase"></span>
+                  <span class="link-text">Portfolio</span>
+                </a>
+              </li>
+              <li>
+                <a href="#blog" class="nav-anim">
+                  <span class="menu-icon lnr lnr-book"></span>
+                  <span class="link-text">Blog</span>
+                </a>
+              </li>
+              <li>
+                <a href="#contact" class="nav-anim">
+                  <span class="menu-icon lnr lnr-envelope"></span>
+                  <span class="link-text">Contact</span>
+                </a>
+              </li> -->
+      </ul>
+
+      <div class="social-links">
+        <ul>
+          <li><a href="https://www.linkedin.com/in/carloslorenzon/" target="_blank"><i
+                class="fab fa-linkedin-in"></i></a></li>
+          <li><a href="https://www.instagram.com/carlos.lorenzon" target="_blank"><i class="fab fa-instagram"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- <div class="header-buttons">
+              <a href="#" target="_blank" class="btn btn-primary">Download CV</a>
+            </div> -->
+
+      <!-- <div class="copyrights">© 2020 All rights reserved.</div> -->
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <!-- End Mobile Navigation -->
+
+    <!-- Arrows Nav -->
+    <!-- <div class="lmpixels-arrows-nav">
+            <div class="lmpixels-arrow-right"><i class="lnr lnr-chevron-right"></i></div>
+            <div class="lmpixels-arrow-left"><i class="lnr lnr-chevron-left"></i></div>
+          </div> -->
+    <!-- End Arrows Nav -->
+
+    <div class="content-area">
+      <div class="animated-sections">
+        <section data-id="home" class="animated-section start-page section-active">
+          <div class="page-title">
+            <h2>{{ page.title | site.title}}</h2>
+            <p>{{ page.description }}</p>
+          </div>
+          <div class="section-content">
+            {{ content }}
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ '/assets/js/jquery-2.1.3.min.js'}}"></script>
+<script src="{{ '/assets/js/modernizr.custom.js'}}"></script>
+<script src="{{ '/assets/js/animating.js'}}"></script>
+
+<script src="{{ '/assets/js/imagesloaded.pkgd.min.js'}}"></script>
+<script src="{{ '/assets/js/perfect-scrollbar.min.js'}}"></script>
+<script src="{{ '/assets/js/jquery.shuffle.min.js'}}"></script>
+<script src="{{ '/assets/js/masonry.pkgd.min.js'}}"></script>
+<script src="{{ '/assets/js/owl.carousel.min.js'}}"></script>
+<script src="{{ '/assets/js/jquery.magnific-popup.min.js'}}"></script>
+
+<script src="{{ '/assets/js/validator.js'}}"></script>
+<script src="{{ '/assets/js/main.js' }}"></script>
+</body>
+
+</html>
